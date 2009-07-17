@@ -1,0 +1,7 @@
+<!ENTITY dialog.title    "Hide Caption">
+<!ENTITY taskbar.label   "Taskbar Position">
+<!ENTITY tb_top.label    "Top">
+<!ENTITY tb_bottom.label "Bottom">
+<!ENTITY tb_left.label   "Left">
+<!ENTITY tb_right.label  "Right">
+<!ENTITY min_on_close.label "Minimize on close">

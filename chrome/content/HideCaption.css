@@ -1,0 +1,3 @@
+#main-window { -moz-binding: url("chrome://HideCaption/content/windows.xml#newWindow"); }
+#toolbar-menubar { -moz-binding: url("chrome://HideCaption/content/windows.xml#toolbar-menubar"); }
+

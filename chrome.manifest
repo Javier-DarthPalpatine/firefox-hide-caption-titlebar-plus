@@ -1,0 +1,6 @@
+content  HideCaption  chrome/content/
+skin     HideCaption  classic/1.0  chrome/skin/
+locale   HideCaption  en-US  chrome/locale/en-US/
+locale   HideCaption  zh-CN  chrome/locale/zh-CN/
+locale   HideCaption  zh-TW  chrome/locale/zh-TW/
+overlay  chrome://browser/content/browser.xul  chrome://HideCaption/content/overlay.xul

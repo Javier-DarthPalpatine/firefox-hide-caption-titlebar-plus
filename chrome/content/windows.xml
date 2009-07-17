@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE bindings [
+<!ENTITY % tabBrowserDTD SYSTEM "chrome://browser/locale/tabbrowser.dtd" >
+%tabBrowserDTD;
+<!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd" >
+%brandDTD;
+<!ENTITY % globalDTD SYSTEM "chrome://global/locale/global.dtd">
+%globalDTD;
+]>
+
+<bindings id="newWindowbindings"
+  xmlns="http://www.mozilla.org/xbl"
+  xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns:xbl="http://www.mozilla.org/xbl">
+  
+  <binding id="newWindow">
+    <content>
+      <xul:hbox id="hc-top-box" class="hc-resizer-box">
+        <xul:resizer dir="topleft" class="hc-resizer" id="hc-resizer1"
+          width="2px" height="2px"/>
+        <xul:resizer dir="top" class="hc-resizer" id="hc-resizer2" flex="1"
+          height="2px"/>
+        <xul:resizer dir="topright" class="hc-resizer" id="hc-resizer3"
+          width="2px" height="2px"/>
+      </xul:hbox>
+      <xul:hbox id="hc-middle-box" class="hc-resizer-box" flex="1">
+        <xul:resizer dir="left" class="hc-resizer" id="hc-resizer4" width="2px"/>
+        <xul:vbox xbl:inherits="orient" flex="1"> <children/> </xul:vbox>
+        <xul:resizer dir="right" class="hc-resizer" id="hc-resizer5" width="2px"/>
+      </xul:hbox>
+      <xul:hbox id="hc-bottom-box" class="hc-resizer-box">
+        <xul:resizer dir="bottomleft" class="hc-resizer" id="hc-resizer6"
+          width="2px" height="2px"/>
+        <xul:resizer dir="bottom" class="hc-resizer" id="hc-resizer7" flex="1"
+          height="2px"/>
+        <xul:resizer dir="bottomright" class="hc-resizer" id="hc-resizer8"
+          width="2px" height="2px"/>
+      </xul:hbox>
+    </content>
+  </binding>
+
+  <binding id="toolbar-menubar" extends="chrome://global/content/bindings/toolbar.xml#toolbar">
+    <content>
+      <children/>
+      <xul:hbox id="hc-controls">
+        <xul:toolbarbutton id="hc-min-button" oncommand="window.minimize();"/>
+        <xul:toolbarbutton id="hc-max-button" oncommand="HideCaption.Maximize();"/>
+        <xul:toolbarbutton id="hc-close-button" oncommand="HideCaption.Close();"/>
+      </xul:hbox>
+    </content>
+  </binding>
+
+</bindings>

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE dialog SYSTEM "chrome://HideCaption/locale/option.dtd">
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    title="&dialog.title;"
+    autosize="true"
+    resizable="no"
+    buttons="accept,cancel"
+    onload="Init();"
+    ondialogaccept="Save();">
+    
+<groupbox>
+  <caption label="&taskbar.label;"/>
+  <radiogroup id="tb-pos" orient="horizontal">
+    <radio id="tb-bottom" label="&tb_bottom.label;"/>
+    <radio id="tb-top" label="&tb_top.label;"/>
+    <radio id="tb-left" label="&tb_left.label;"/>
+    <radio id="tb-right" label="&tb_right.label;"/>
+  </radiogroup>
+</groupbox>
+<checkbox id="min_on_close" label="&min_on_close.label;" checked="{true|*false}"/>
+
+<script type="application/x-javascript">
+  <![CDATA[
+
+    var pref = Components.classes["@mozilla.org/preferences-service;1"
+        ].getService(Components.interfaces.nsIPrefService).getBranch(
+        "extensions.hide_caption.");
+
+    function Init() {
+        try {
+            var tb_pos = pref.getCharPref("taskbar_pos").
+                toLowerCase();
+            var pos_btn = document.getElementById("tb-"+tb_pos);
+            if (pos_btn)
+                document.getElementById("tb-pos").selectedItem =
+                    pos_btn;
+        }
+        catch(e) {
+        }
+        document.getElementById("min_on_close").checked = pref.
+            getBoolPref("min-on-close");
+    }
+
+    function Save() {
+        var pos_btn = document.getElementById("tb-pos").
+            selectedItem;
+        if (pos_btn && pos_btn.id.substr(0,3)=="tb-")
+            pref.setCharPref("taskbar_pos", pos_btn.id.substr(3));
+        pref.setBoolPref("min-on-close", document.getElementById(
+            "min_on_close").checked);
+        return true;
+    }
+
+  ]]>
+</script>
+  
+</dialog>

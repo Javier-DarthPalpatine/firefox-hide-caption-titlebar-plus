@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+<?xml-stylesheet href="chrome://HideCaption/content/HideCaption.css" type="text/css"?>
+<?xml-stylesheet href="chrome://HideCaption/skin/style.css" type="text/css"?>
+<!DOCTYPE window [
+<!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd" >
+%browserDTD;
+<!ENTITY % baseMenuOverlayDTD SYSTEM "chrome://browser/locale/baseMenuOverlay.dtd">
+%baseMenuOverlayDTD;
+<!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd">
+%brandDTD;
+]>
+<overlay id="HideCaption-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <window id="main-window" hidechrome="true"></window>
+  <toolbarbutton id="restore-button" oncommand="HideCaption.Maximize();"></toolbarbutton>
+  <toolbarbutton id="close-button" oncommand="HideCaption.Close();"></toolbarbutton>
+  <hbox id="window-controls" fullscreencontrol="false"></hbox>
+  <script src="chrome://HideCaption/content/HideCaption.js"/>
+</overlay>
