@@ -4,18 +4,18 @@
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
   <Description about="urn:mozilla:install-manifest">
-    <em:name>Hide Caption</em:name>
-    <em:id>{002349F5-59AB-4fdc-8329-BF4248243C95}</em:id>
+    <em:name>Hide Caption Titlebar</em:name>
+    <em:id>{002349F5-59AB-4fdc-8329-BF4248243C96}</em:id>
     <em:description>Hide the caption of Firefox</em:description>
     <em:optionsURL>chrome://HideCaption/content/options.xul</em:optionsURL>
-    <em:version>0.5.3</em:version>
+    <em:version>0.5.6</em:version>
     <em:creator>GOLF-AT</em:creator>
  
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>3.0</em:minVersion>
-        <em:maxVersion>3.1b2pre</em:maxVersion>
+        <em:maxVersion>3.6a1pre</em:maxVersion>
       </Description>
     </em:targetApplication>
   </Description>

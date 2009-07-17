@@ -99,7 +99,7 @@ var HideCaption = {
         if (inFull=="true"|| menubar.getAttribute("collapsed"
             )=="true" || getComputedStyle(menubar,"").display
             =="none" || this.GetBoolPref("show_nav_close_btn"
-            ,null))
+            ,true))
             winctrls.setAttribute("hidden", "false");
         else
             winctrls.setAttribute("hidden", "true");
