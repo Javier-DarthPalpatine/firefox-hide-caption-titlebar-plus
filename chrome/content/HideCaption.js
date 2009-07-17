@@ -115,6 +115,12 @@ var HideCaption = {
         }
         else
             this.ResetBorder();
+
+        //DarthPalpatine@dummy.addons.mozilla.org: don't maximize popup windows! (the most frequent ones, without menubar)
+        if( (getComputedStyle(menubar,"").display != "-moz-box")){
+            return; // RETURN here!!!!
+        }
+			
         if (InitPos == 1) {
             InitPos = 0;
 
