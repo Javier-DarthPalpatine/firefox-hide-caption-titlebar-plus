@@ -44,9 +44,10 @@
     <content>
       <children/>
       <xul:hbox id="hc-controls">
-        <xul:toolbarbutton id="hc-min-button" oncommand="window.minimize();"/>
-        <xul:toolbarbutton id="hc-max-button" oncommand="HideCaption.Maximize();"/>
-        <xul:toolbarbutton id="hc-close-button" oncommand="HideCaption.Close();"/>
+        <xul:hbox          id="hc-drag-space" tooltiptext="Drag Window"  />
+        <xul:toolbarbutton id="hc-min-button"   oncommand="window.minimize();"      />
+        <xul:toolbarbutton id="hc-max-button"   oncommand="HideCaption.Maximize();" />
+        <xul:toolbarbutton id="hc-close-button" oncommand="HideCaption.Close();"    />
       </xul:hbox>
     </content>
   </binding>

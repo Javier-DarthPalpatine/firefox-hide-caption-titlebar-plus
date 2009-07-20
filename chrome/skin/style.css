@@ -10,24 +10,38 @@
 .hc-resizer { background: #404040; }
 
 #hc-min-button,
-#window-controls > #minimize-button {
+#window-controls > #minimize-buttonXXX {
   list-style-image: url("chrome://HideCaption/skin/Minimize.gif");  
 }
 
 #hc-max-button,
-#window-controls > #restore-button {
+#window-controls > #restore-buttonXXX {
   list-style-image: url("chrome://HideCaption/skin/Maximize.gif");  
 }
 
 #main-window[hc-MaxFull="true"] #hc-max-button,
-#main-window[hc-MaxFull="true"] #restore-button {
+#main-window[hc-MaxFull="true"] #restore-buttonXXX {
   list-style-image: url("chrome://HideCaption/skin/Restore.gif");  
 }
 
 #hc-close-button,
-#window-controls > #close-button {
+#window-controls > #close-buttonXXX {
   list-style-image: url("chrome://HideCaption/skin/Close.gif");  
 }
+
+#hc-drag-space{
+	width: 25px;
+	/* list-style-image: url("chrome://HideCaption/skin/Drag.gif");   */
+	background-image: url("chrome://HideCaption/skin/Drag.gif");  
+	background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#main-window[hc-MaxFull="true"] #hc-drag-space{
+	width: 25px;
+	visibility: hidden;
+}
+
 
 #main-window[hc-MaxFull="true"] .statusbar-resizerpanel {
   display: none !important;

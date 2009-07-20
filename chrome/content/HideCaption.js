@@ -4,9 +4,9 @@ window.onbeforeunload = function() { HideCaption.OnClose(); }
 
 var DownX, DownY, DownT, DblClk;
 var FormX, FormY, FormW, FormH;
-var WinState, Resizing, InitPos, gPref;
+var WinState, Resizing, InitPos, gPref, haveCaption= false;
 var DragCtrls = ["toolbarspring", "navigator-throbber",
-    "window-controls", "statusbar-display"];
+    "window-controls", "statusbar-display", "hc-drag-space"];
 
 var HideCaption = {
 
@@ -38,9 +38,20 @@ var HideCaption = {
     },
     
     Maximize : function() {
+		if( haveCaption ){
+			if( window.windowState != window.STATE_MAXIMIZED ){
+				WinState |= 1;
+				window.maximize();
+			}else{
+				WinState = 0;
+				window.restore();
+			}
+			return; // !!
+		}
+			
         Resizing += 1;
         if (WinState == 0) {
-            this.SavePosSize(); this.SetMaxSize();
+			this.SavePosSize(); this.SetMaxSize();
         }
         else if(WinState >= 2)
             BrowserFullScreen();
@@ -65,6 +76,15 @@ var HideCaption = {
 
         mainW = document.getElementById("main-window");
         if (mainW) {
+
+			var menubar = document.getElementById("toolbar-menubar");
+			if( getComputedStyle(menubar,"").display != "-moz-box" ){  //leave POPUPS with Caption, close box, etc
+				mainW.setAttribute("hidechrome", "false");
+			}else{
+				mainW.setAttribute("hidechrome", "true");
+			}
+			haveCaption= mainW.getAttribute("hidechrome") != "true";
+					
             FormX = mainW.getAttribute("screenX");
             FormY = mainW.getAttribute("screenY");
         }
@@ -76,8 +96,23 @@ var HideCaption = {
             else
                 ctrlW = document.getElementById(DragCtrls
                     [i]);
-            if (ctrlW)
+            if (ctrlW){
                 ctrlW.onmousedown= HideCaption.MouseDown;
+				ctrlW.title="Drag Window";
+				
+				//var f = ctrlW;
+              //f.style.display = "block";
+              //f.style.width="350px";
+              //f.style.height="120px";
+              //f.style.borderStyle = "solid";
+              //f.style.borderColor = "red";
+              //f.style.borderWidth = "1px";
+			  //f.style.backgroundColor = "yellow";
+			  //f.style.color = "black";
+			  //dummy f.innerHTML= f.id;
+			  //dummy f.zIndex= "90";
+
+			}
         }
 
     },
@@ -96,13 +131,23 @@ var HideCaption = {
         menubar = document.getElementById("toolbar-menubar");
         winctrls = document.getElementById("window-controls");
 
+        //DarthPalpatine@dummy.addons.mozilla.org: don't maximize popup/captioned windows ! (the most frequent ones, without menubar)
+        if( getComputedStyle(menubar,"").display != "-moz-box" ||
+			haveCaption ){
+
+			winctrls.setAttribute("hidden", "true");
+			this.ResetBorder();
+			window.windowState==window.STATE_MAXIMIZED? WinState |= 1 : WinState = 0; // for mousemove in status bar
+			return; // RETURN here!!!!
+        }
+		
         if (inFull=="true"|| menubar.getAttribute("collapsed"
             )=="true" || getComputedStyle(menubar,"").display
             =="none" || this.GetBoolPref("show_nav_close_btn"
             ,true))
             winctrls.setAttribute("hidden", "false");
         else
-            winctrls.setAttribute("hidden", "true");
+            ;//winctrls.setAttribute("hidden", "true");
 
         if (window.windowState!=window.STATE_MAXIMIZED &&
             WinState==0 && Resizing==0 && inFull!="true")
@@ -116,11 +161,6 @@ var HideCaption = {
         else
             this.ResetBorder();
 
-        //DarthPalpatine@dummy.addons.mozilla.org: don't maximize popup windows! (the most frequent ones, without menubar)
-        if( (getComputedStyle(menubar,"").display != "-moz-box")){
-            return; // RETURN here!!!!
-        }
-			
         if (InitPos == 1) {
             InitPos = 0;
 
@@ -214,11 +254,11 @@ var HideCaption = {
                 mainW.setAttribute("hc-MaxFull", MaxFull);
             else
                 mainW.removeAttribute("hc-MaxFull");
-
-            for(n=1; n<=8; n++) {
+        }
+		// check new haveCaption var also.
+        for(n=1; n<=8; n++) {
                 document.getElementById("hc-resizer"+n).style
-                    .display = MaxFull ? "none" : "-moz-box";
-            }
+                    .display = MaxFull || haveCaption ? "none" : "-moz-box";
         }
     },
     

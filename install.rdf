@@ -8,7 +8,7 @@
     <em:id>{002349F5-59AB-4fdc-8329-BF4248243C96}</em:id>
     <em:description>Hide the caption of Firefox</em:description>
     <em:optionsURL>chrome://HideCaption/content/options.xul</em:optionsURL>
-    <em:version>0.5.6</em:version>
+    <em:version>0.5.6.j</em:version>
     <em:creator>GOLF-AT</em:creator>
  
     <em:targetApplication>
