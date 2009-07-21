@@ -98,7 +98,7 @@ var HideCaption = {
                     [i]);
             if (ctrlW){
                 ctrlW.onmousedown= HideCaption.MouseDown;
-				ctrlW.title="Drag Window";
+				//ctrlW.setAttribute('tooltiptext', "Drag Window");
 				
 				//var f = ctrlW;
               //f.style.display = "block";
@@ -147,7 +147,7 @@ var HideCaption = {
             ,true))
             winctrls.setAttribute("hidden", "false");
         else
-            ;//winctrls.setAttribute("hidden", "true");
+            winctrls.setAttribute("hidden", "true");
 
         if (window.windowState!=window.STATE_MAXIMIZED &&
             WinState==0 && Resizing==0 && inFull!="true")

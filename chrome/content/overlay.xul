@@ -11,7 +11,7 @@
 %brandDTD;
 ]>
 <overlay id="HideCaption-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <window id="main-window" hidechrome="false"></window>
+  <!-- <window id="main-window" hidechrome="false"></window>  hidechrome setted in .js -->
   <hbox id="window-controls" fullscreencontrol="false">
 	<toolbarbutton id="restore-button"  oncommand="HideCaption.Maximize();"></toolbarbutton>
 	<toolbarbutton id="close-button"    oncommand="HideCaption.Close();"   ></toolbarbutton>

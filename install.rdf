@@ -4,12 +4,13 @@
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
   <Description about="urn:mozilla:install-manifest">
-    <em:name>Hide Caption Titlebar</em:name>
+    <em:name>Hide Caption Titlebar Plus</em:name>
     <em:id>{002349F5-59AB-4fdc-8329-BF4248243C96}</em:id>
-    <em:description>Hide the caption of Firefox</em:description>
+    <em:description>Hide the caption of Firefox (new options!)</em:description>
     <em:optionsURL>chrome://HideCaption/content/options.xul</em:optionsURL>
-    <em:version>0.5.6.j</em:version>
+    <em:version>0.5.6.0.2</em:version>
     <em:creator>GOLF-AT</em:creator>
+    <em:developer>DarthPalpatine</em:developer>
  
     <em:targetApplication>
       <Description>
