@@ -56,12 +56,17 @@ var HideCaption = {
         else if(WinState >= 2)
             BrowserFullScreen();
         else {
-            window.moveTo(FormX, FormY);
-            window.resizeTo(FormW, FormH);
+			this.RestoreWin();
             WinState = 0;
         }
         Resizing -= 1; this.ResetBorder();
     },
+  
+    RestoreWin : function() {
+        
+		window.moveTo(FormX, FormY);
+		window.resizeTo(FormW, FormH);
+	},
   
     OnLoad : function() {
         var mainW, ctrlW, Class;
@@ -99,19 +104,6 @@ var HideCaption = {
             if (ctrlW){
                 ctrlW.onmousedown= HideCaption.MouseDown;
 				//ctrlW.setAttribute('tooltiptext', "Drag Window");
-				
-				//var f = ctrlW;
-              //f.style.display = "block";
-              //f.style.width="350px";
-              //f.style.height="120px";
-              //f.style.borderStyle = "solid";
-              //f.style.borderColor = "red";
-              //f.style.borderWidth = "1px";
-			  //f.style.backgroundColor = "yellow";
-			  //f.style.color = "black";
-			  //dummy f.innerHTML= f.id;
-			  //dummy f.zIndex= "90";
-
 			}
         }
 
@@ -176,16 +168,16 @@ var HideCaption = {
                     (WinState&2) ? BrowserFullScreen()
                         : window.maximize();
                 else {
-                    window.moveTo(FormX, FormY);
-                    window.resizeTo(FormW, FormH);
+					this.RestoreWin();
                 }
                 Resizing -= 1; WinState = split[0] & 3;
             }
         }
         else if(State0==2 && Resizing==0 && WinState==
             0) {
-            Resizing += 1; window.moveTo(FormX, FormY);
-            window.resizeTo(FormW, FormH); Resizing -= 1;
+            Resizing += 1; 
+			this.RestoreWin();
+			Resizing -= 1;
         }
     },
     
