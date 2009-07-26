@@ -5,12 +5,16 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:name>Hide Caption Titlebar Plus</em:name>
-    <em:id>{002349F5-59AB-4fdc-8329-BF4248243C96}</em:id>
-    <em:description>Hide the caption of Firefox (new options!)</em:description>
+    <em:id>hidecaptionplus-dp@dummy.addons.mozilla.org</em:id>
+    <em:description>Hide the caption (titlebar) of Firefox (with key fixes and improvements)</em:description>
     <em:optionsURL>chrome://HideCaption/content/options.xul</em:optionsURL>
-    <em:version>0.5.6.0.2</em:version>
+    <em:version>0.5.6.3j</em:version>
     <em:creator>GOLF-AT</em:creator>
     <em:developer>DarthPalpatine</em:developer>
+    <em:homepageURL>https://addons.mozilla.org/en-US/firefox/user/4341183</em:homepageURL>
+ 	<!--
+		SUPPORT PAGE:	  http://code.google.com/p/firefox-hide-caption-titlebar-plus/issues/list
+	-->
  
     <em:targetApplication>
       <Description>
@@ -19,5 +23,18 @@
         <em:maxVersion>3.6a1pre</em:maxVersion>
       </Description>
     </em:targetApplication>
+	
+    <!-- Localizations -->
+	<em:localized>
+     <Description>
+		<em:locale>es</em:locale>
+		<em:name>No mostrar la barra de titulo de la ventana de FF. (Hide Caption Titlebar Plus)</em:name>
+		<em:description>Hide the caption (titlebar) of Firefox (with key fixes and improvements)</em:description>
+		<em:creator>GOLF-AT</em:creator>
+		<em:developer>DarthPalpatine</em:developer>
+		<em:homepageURL>https://addons.mozilla.org/en-US/firefox/user/4341183</em:homepageURL>
+     </Description>
+	</em:localized> 	
+	
   </Description>
 </RDF>

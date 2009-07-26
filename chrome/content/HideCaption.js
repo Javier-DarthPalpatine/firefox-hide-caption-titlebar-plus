@@ -10,6 +10,8 @@ var DragCtrls = ["toolbarspring", "navigator-throbber",
 
 var HideCaption = {
 
+	mainW: null,
+	
     Close : function() {
         if (this.GetBoolPref("min-on-close",null))
             window.minimize();
@@ -34,7 +36,8 @@ var HideCaption = {
         else {
             x=screen.availLeft; y=screen.availTop;
         }
-        WinState |= 1; moveTo(x,y); resizeTo(w,h);
+        WinState |= 1; 
+		moveTo(x,y); resizeTo(w,h);
     },
     
     Maximize : function() {
@@ -69,7 +72,9 @@ var HideCaption = {
 	},
   
     OnLoad : function() {
-        var mainW, ctrlW, Class;
+        var ctrlW, Class;
+
+        this.mainW = document.getElementById("main-window");
 
         Class = "@mozilla.org/preferences-service;1";
         gPref = Components.classes[Class].getService(
@@ -79,22 +84,21 @@ var HideCaption = {
         InitPos = 1; Resizing = 0; WinState = 0; 
         DownT = 0; DblClk = 0; this.SavePosSize(); 
 
-        mainW = document.getElementById("main-window");
-        if (mainW) {
+        if (this.mainW) {
 
 			var menubar = document.getElementById("toolbar-menubar");
 			if( getComputedStyle(menubar,"").display != "-moz-box" ){  //leave POPUPS with Caption, close box, etc
-				mainW.setAttribute("hidechrome", "false");
+				this.mainW.setAttribute("hidechrome", "false");
 			}else{
-				mainW.setAttribute("hidechrome", "true");
+				this.mainW.setAttribute("hidechrome", "true");
 			}
-			haveCaption= mainW.getAttribute("hidechrome") != "true";
+			haveCaption= this.mainW.getAttribute("hidechrome") != "true";
 					
-            FormX = mainW.getAttribute("screenX");
-            FormY = mainW.getAttribute("screenY");
+            FormX = this.mainW.getAttribute("screenX");
+            FormY = this.mainW.getAttribute("screenY");
         }
 
-        for(i=0; i<DragCtrls.length; i++) {
+        for(var i=0; i<DragCtrls.length; i++) {
             if (i == 0)
                 ctrlW = document.getElementsByTagName(
                     DragCtrls[i])[0];
@@ -115,11 +119,10 @@ var HideCaption = {
     },
 
     OnResize : function(e) {
-        var main_w, inFull, menubar, winctrls, State0;
+        var inFull, menubar, winctrls, State0;
         
         inFull = document.getElementById("nav-bar").
             getAttribute("inFullscreen");
-        main_w = document.getElementById("main-window");
         menubar = document.getElementById("toolbar-menubar");
         winctrls = document.getElementById("window-controls");
 
@@ -150,8 +153,9 @@ var HideCaption = {
         if (window.windowState==window.STATE_MAXIMIZED) {
             this.SetMaxSize(); this.ResetBorder();
         }
-        else
-            this.ResetBorder();
+        else{
+        	this.ResetBorder();
+        }
 
         if (InitPos == 1) {
             InitPos = 0;
@@ -226,11 +230,11 @@ var HideCaption = {
     },
     
     SavePosSize : function() {
-        var mainW, width, height;
+        var width, height;
         
-        mainW = document.getElementById("main-window");
-        width = mainW.getAttribute("width");
-        height = mainW.getAttribute("height");
+        //this.mainW = document.getElementById("main-window");
+        width = this.mainW.getAttribute("width");
+        height = this.mainW.getAttribute("height");
         if (width>=360 && height>=240 && (width<screen
             .width || height<screen.height)) {
             FormX = screenX; FormW = width;
@@ -239,19 +243,19 @@ var HideCaption = {
     },
 
     ResetBorder : function() {
-        var mainW = document.getElementById("main-window");
+        //var this.mainW = document.getElementById("main-window");
         var MaxFull = WinState!=0 ? true : false;
-        if (MaxFull != mainW.getAttribute("hc-MaxFull")) {
+        if (MaxFull != this.mainW.getAttribute("hc-MaxFull")) {
             if (MaxFull)
-                mainW.setAttribute("hc-MaxFull", MaxFull);
+                this.mainW.setAttribute("hc-MaxFull", MaxFull);
             else
-                mainW.removeAttribute("hc-MaxFull");
+                this.mainW.removeAttribute("hc-MaxFull");
         }
-		// check new haveCaption var also.
-        for(n=1; n<=8; n++) {
-                document.getElementById("hc-resizer"+n).style
-                    .display = MaxFull || haveCaption ? "none" : "-moz-box";
-        }
+		// check new haveCaption var also. - now setted in CSS
+        //for(n=1; n<=8; n++) {
+        //        document.getElementById("hc-resizer"+n).style
+        //            .display = MaxFull || haveCaption ? "none" : "-moz-box";
+        //}
     },
     
     GetBoolPref : function(Name, DefVal) {

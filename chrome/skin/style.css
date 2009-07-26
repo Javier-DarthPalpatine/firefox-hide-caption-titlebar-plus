@@ -7,25 +7,29 @@
 .hc-resizer[dir="bottomleft"] { cursor: sw-resize; }
 .hc-resizer[dir="bottomright"] { cursor: se-resize; -moz-appearance:none; }
 
-.hc-resizer { background: #404040; }
+.hc-resizer { background: #999999; }
+#main-window[hidechrome="false"]   .hc-resizer,
+#main-window[hc-MaxFull="true"]    .hc-resizer {
+  display: none !important;
+  /* -moz-box */
+}
 
 #hc-min-button,
-#window-controls > #minimize-button {
+#window-controls > #minimize-buttonXXX {
   list-style-image: url("chrome://HideCaption/skin/Minimize.gif");  
 }
 
 #hc-max-button,
-#window-controls > #restore-button {
+#window-controls > #restore-buttonXXX {
   list-style-image: url("chrome://HideCaption/skin/Maximize.gif");  
 }
-
 #main-window[hc-MaxFull="true"] #hc-max-button,
-#main-window[hc-MaxFull="true"] #restore-button {
+#main-window[hc-MaxFull="true"] #window-controls > #restore-buttonXXX {
   list-style-image: url("chrome://HideCaption/skin/Restore.gif");  
 }
 
 #hc-close-button,
-#window-controls > #close-button {
+#window-controls > #close-buttonXXX {
   list-style-image: url("chrome://HideCaption/skin/Close.gif");  
 }
 
@@ -36,12 +40,17 @@
 	background-position: center center;
     background-repeat: no-repeat;
 }
-
 #main-window[hc-MaxFull="true"] #hc-drag-space{
-	background-image: url("");  
-	/* visibility: hidden; let double click on fullscreen */
+	display: none !important;
 }
 
 #main-window[hc-MaxFull="true"] .statusbar-resizerpanel {
+  display: none !important;
+}
+
+#main-window[hidechrome="false"] #hc-min-button,
+#main-window[hidechrome="false"] #hc-max-button,
+#main-window[hidechrome="false"] #hc-close-button,
+#main-window[hidechrome="false"] #hc-drag-space {
   display: none !important;
 }
