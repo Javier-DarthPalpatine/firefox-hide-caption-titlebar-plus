@@ -1,16 +1,31 @@
+
 window.addEventListener('load', function() { HideCaption.OnLoad() }, false);
 window.addEventListener('resize', function(e) { HideCaption.OnResize(e) }, false);
+window.addEventListener('beforeunload', function(e) { HideCaption.OnClose() }, false);
+window.addEventListener('unload', function(e) { HideCaption.OnClose() }, false);
 window.onbeforeunload = function() { HideCaption.OnClose(); }
 
 var DownX, DownY, DownT, DblClk;
 var FormX, FormY, FormW, FormH;
-var WinState, Resizing, InitPos, gPref, haveCaption= false;
+var WinState, Resizing, InitPos, gPref;
 var DragCtrls = ["toolbarspring", "navigator-throbber",
     "window-controls", "statusbar-display", "hc-drag-space"];
 
+
+
 var HideCaption = {
 
-	mainW: null,
+	//new behavior (will be configurable)
+	setCaptionOnRestore_option: true,
+	haveCaption_OnlyForRestore: false, // this caption was set only due to the corresponding xxx_option ! (isn't a popup that should have caption_permanent and such)
+
+	haveCaption_Permanent     : false,
+	haveCaption               : false,
+	
+	mainW          : null,
+	processOnResize: true,
+
+	settedMaxSize : false,
 	
     Close : function() {
         if (this.GetBoolPref("min-on-close",null))
@@ -20,6 +35,22 @@ var HideCaption = {
     },
     
     SetMaxSize : function() {
+
+		this.myDumpToConsole("SetMaxSize: settedMaxSize= "+this.settedMaxSize+" - haveCaptionOnlyForRestore=" +this.haveCaptionOnlyForRestore);
+        
+		if( this.settedMaxSize && WinState > 0 ){ // win32 is generating a 2nd resize-maximize() event (perhaps when hidechrome is set to true.)
+			this.myDumpToConsole("SetMaxSize: SKIPPING !!!!!!!!!! ---------------------------------------------------------------- ");
+			return;
+		}
+
+		WinState |= 1; 
+		
+		HideCaption.processOnResize= false;
+		this.doSetMaxSize();
+		HideCaption.processOnResize= true;
+    },
+	doSetMaxSize: function(){
+		
         var x = 0;  var w = screen.availWidth;
         var y = 0;  var h = screen.availHeight;
 
@@ -36,12 +67,42 @@ var HideCaption = {
         else {
             x=screen.availLeft; y=screen.availTop;
         }
-        WinState |= 1; 
-		moveTo(x,y); resizeTo(w,h);
-    },
+		
+        var isMaximizedWin= window.windowState==window.STATE_MAXIMIZED;
+		
+		if( this.haveCaptionOnlyForRestore ){ //only it it ISNT a permanent caption
+
+			this.mainW.setAttribute("hidechrome", "true");
+			this.haveCaption= this.mainW.getAttribute("hidechrome") != "true";
+			this.haveCaptionOnlyForRestore= false;
+
+			this.myDumpToConsole("SetMaxSize: (with timeout) ");
+			
+					HideCaption.my_moveTo(x,y);
+					if( !isMaximizedWin ){
+						HideCaption.my_maximize();
+					}
+			
+			setTimeout(	function()
+				{
+					HideCaption.processOnResize= false;
+					
+					HideCaption.my_resizeTo(w,h);
+					
+					HideCaption.processOnResize= true;
+				}, 20); // setTimeout()
+			
+		}else{
+			this.myDumpToConsole("SetMaxSize: ");
+			this.my_moveTo(x,y); 
+			this.my_resizeTo(w,h);
+		}
+
+        this.settedMaxSize= true; 
+	},
     
     Maximize : function() {
-		if( haveCaption ){
+		if( this.haveCaption_Permanent ){
 			if( window.windowState != window.STATE_MAXIMIZED ){
 				WinState |= 1;
 				window.maximize();
@@ -64,13 +125,64 @@ var HideCaption = {
         }
         Resizing -= 1; this.ResetBorder();
     },
-  
+
     RestoreWin : function() {
-        
-		window.moveTo(FormX, FormY);
-		window.resizeTo(FormW, FormH);
+		HideCaption.processOnResize= false;
+		this.doRestoreWin();
+		HideCaption.processOnResize= true;
 	},
-  
+    doRestoreWin : function() {
+
+		this.haveCaption= this.mainW.getAttribute("hidechrome") != "true";
+		if( this.setCaptionOnRestore_option ){
+			if( !this.haveCaption ){
+				this.haveCaptionOnlyForRestore= true;
+				this.mainW.setAttribute("hidechrome", "false");
+				this.haveCaption= this.mainW.getAttribute("hidechrome") != "true";
+			}
+		}
+	
+		if( this.haveCaptionOnlyForRestore ){
+			this.myDumpToConsole("RestoreWin: (with timeout) ");
+							HideCaption.my_maximize();
+							HideCaption.my_restore();
+							HideCaption.my_moveTo(FormX, FormY);
+			
+			setTimeout(	function(){
+							HideCaption.processOnResize= false;
+							HideCaption.my_resizeTo(FormW, FormH);
+							HideCaption.processOnResize= true;
+						}, 20); 
+		}else{
+			this.myDumpToConsole("RestoreWin: ");
+			this.my_moveTo(FormX, FormY);
+			this.my_resizeTo(FormW, FormH);
+		}
+		
+		this.settedMaxSize= false; 
+	},
+	
+	my_moveTo: function(_x, _y){	
+		this.debug_move("moveTo("+_x+","+_y+")");
+		window.moveTo  (_x, _y);	
+	},
+	my_resizeTo: function(_x, _y){
+		this.debug_move("resizeTo("+_x+","+_y+")");
+		window.resizeTo(_x, _y);
+	},
+	my_maximize: function(){
+		this.debug_move("maximize()");
+		window.maximize();
+	},
+	my_restore: function(){
+		this.debug_move("restore()");
+		window.restore();
+	},
+	
+	debug_move: function(_sMsg){
+		this.myDumpToConsole("        >> about to: "+_sMsg);
+	},
+	
     OnLoad : function() {
         var ctrlW, Class;
 
@@ -89,10 +201,11 @@ var HideCaption = {
 			var menubar = document.getElementById("toolbar-menubar");
 			if( getComputedStyle(menubar,"").display != "-moz-box" ){  //leave POPUPS with Caption, close box, etc
 				this.mainW.setAttribute("hidechrome", "false");
+				this.haveCaption_Permanent = true; //?? have popup have captionOnRestore also?
 			}else{
 				this.mainW.setAttribute("hidechrome", "true");
 			}
-			haveCaption= this.mainW.getAttribute("hidechrome") != "true";
+			this.haveCaption= this.mainW.getAttribute("hidechrome") != "true";
 					
             FormX = this.mainW.getAttribute("screenX");
             FormY = this.mainW.getAttribute("screenY");
@@ -114,11 +227,34 @@ var HideCaption = {
     },
   
     OnClose : function() {
-        gPref.setCharPref("hide_caption.pos_size", WinState
-            +","+FormX+","+FormY+","+FormW+","+FormH);
+		var pos_size= WinState+","+FormX+","+FormY+","+FormW+","+FormH
+        gPref.setCharPref("hide_caption.pos_size", pos_size);
+		this.myDumpToConsole("                  saved   pos_size="+pos_size);
     },
 
+	myDumpToConsole : function(aMessage){
+		var consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
+		consoleService.logStringMessage("" + aMessage);
+		
+		//Components.utils.reportError(e); // report the error and continue execution
+	},
+	
     OnResize : function(e) {
+	
+		this.myDumpToConsole(">> OnResize: hidec="+this.mainW.getAttribute("hidechrome")+
+			"   process:"+HideCaption.processOnResize+(HideCaption.processOnResize?"":"            || ")+
+			" WinState:"+WinState+
+			" STATE_MAXIMIZED:"+(window.windowState==window.STATE_MAXIMIZED)+
+			" - e: "+
+			e.target.screenX+" "+
+			e.target.screenY+" "+
+			" - mainW: "+
+			this.mainW.width+" "+
+			this.mainW.height+" "+
+			//this.mainW.clientWidth+" "+
+			//this.mainW.clientHeight+" "+
+			"");
+	
         var inFull, menubar, winctrls, State0;
         
         inFull = document.getElementById("nav-bar").
@@ -126,16 +262,6 @@ var HideCaption = {
         menubar = document.getElementById("toolbar-menubar");
         winctrls = document.getElementById("window-controls");
 
-        //DarthPalpatine@dummy.addons.mozilla.org: don't maximize popup/captioned windows ! (the most frequent ones, without menubar)
-        if( getComputedStyle(menubar,"").display != "-moz-box" ||
-			haveCaption ){
-
-			winctrls.setAttribute("hidden", "true");
-			this.ResetBorder();
-			window.windowState==window.STATE_MAXIMIZED? WinState |= 1 : WinState = 0; // for mousemove in status bar
-			return; // RETURN here!!!!
-        }
-		
         if (inFull=="true"|| menubar.getAttribute("collapsed"
             )=="true" || getComputedStyle(menubar,"").display
             =="none" || this.GetBoolPref("show_nav_close_btn"
@@ -148,30 +274,45 @@ var HideCaption = {
             WinState==0 && Resizing==0 && inFull!="true")
             this.SavePosSize();
 
+        //DarthPalpatine@dummy.addons.mozilla.org: don't maximize popup/captioned windows ! (the most frequent ones, without menubar)
+        if( getComputedStyle(menubar,"").display != "-moz-box" ||
+			this.haveCaption_Permanent ){ // (this.haveCaption && !this.haveCaptionOnlyForRestore)
+
+			//winctrls.setAttribute("hidden", "true");
+			window.windowState==window.STATE_MAXIMIZED? WinState |= 1 : WinState = 0; // for mousemove in status bar
+			this.ResetBorder(); // after setting WinState
+			return; // RETURN here!!!!
+        }
+		
+		if( ! HideCaption.processOnResize ){  //SKIPPING !!! - don't mess anything more!
+			return;
+		}
+			
         State0 = WinState;
         inFull=="true" ? WinState |= 2 : WinState &= 1;
         if (window.windowState==window.STATE_MAXIMIZED) {
             this.SetMaxSize(); this.ResetBorder();
         }
         else{
-        	this.ResetBorder();
-        }
+            this.ResetBorder();
+		}
 
         if (InitPos == 1) {
-            InitPos = 0;
+            InitPos =  0;
 
-            var split = this.GetCharPref("pos_size","")
-                .split(",");
+			var split = this.GetCharPref("pos_size","").split(",");
+			this.myDumpToConsole("                  obtained pos_size="+split);
+			
             if (split.length == 5) {
                 Resizing += 1; WinState = split[0] & 3;
-                if (split[3]>=360 && split[4]>=240) {
-                    FormX = split[1]; FormY = split[2];
-                    FormW = split[3]; FormH = split[4];
-                }
-                if (WinState & 3)
+                if( split[3]<320 ) split[3]= 320;
+				if( split[4]<240 ) split[4]= 240;
+                FormX = split[1]; FormY = split[2];
+                FormW = split[3]; FormH = split[4];
+                if (WinState & 3){
                     (WinState&2) ? BrowserFullScreen()
                         : window.maximize();
-                else {
+                }else {
 					this.RestoreWin();
                 }
                 Resizing -= 1; WinState = split[0] & 3;
@@ -234,27 +375,35 @@ var HideCaption = {
         
         //this.mainW = document.getElementById("main-window");
         width = this.mainW.getAttribute("width");
-        height = this.mainW.getAttribute("height");
-        if (width>=360 && height>=240 && (width<screen
-            .width || height<screen.height)) {
-            FormX = screenX; FormW = width;
-            FormY = screenY; FormH = height;
-        }
-    },
+        height= this.mainW.getAttribute("height");
+
+		if( width <320 ) width= 320;
+		if( height<240 ) height=240;
+		if( width >screen.width ) width = screen.width;
+		if( height>screen.height) height= screen.height;
+
+		FormX = screenX; FormW = width;
+        FormY = screenY; FormH = height;
+			
+		this.myDumpToConsole("   SavePosSize:  saved coords!!: "+FormX+","+FormY+","+FormW+","+FormH);
+	},
 
     ResetBorder : function() {
-        //var this.mainW = document.getElementById("main-window");
+        //var mainW = document.getElementById("main-window");
+
         var MaxFull = WinState!=0 ? true : false;
         if (MaxFull != this.mainW.getAttribute("hc-MaxFull")) {
             if (MaxFull)
                 this.mainW.setAttribute("hc-MaxFull", MaxFull);
-            else
+			else
                 this.mainW.removeAttribute("hc-MaxFull");
         }
-		// check new haveCaption var also. - now setted in CSS
-        //for(n=1; n<=8; n++) {
-        //        document.getElementById("hc-resizer"+n).style
-        //            .display = MaxFull || haveCaption ? "none" : "-moz-box";
+		//this.haveCaption= this.mainW.getAttribute("hidechrome") != "true";
+		// check new haveCaption var also.
+		//var n=0;
+        //for(var n=1; n<=8; n++) {
+        //       document.getElementById("hc-resizer"+n).style
+        //            .display = MaxFull || this.haveCaption ? "none" : "-moz-box";
         //}
     },
     
