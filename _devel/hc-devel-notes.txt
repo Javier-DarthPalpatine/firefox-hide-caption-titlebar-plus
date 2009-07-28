@@ -1,0 +1,17 @@
+
+- Guardar mouse-move dsd el caption y los resize tb!!
+- Arranca maximizado pero movido!
+- Falla fullscreen sin menu-bar!
+     check inFull en REstoreWin o algo asi vd??
+
+- Falla restore en LINUX (es el maximize extra?)
+- Resizing var - falta this.  !!!
+
+
+--------------------- /\/\/\/\ TODO /\/\/\/\ -------------------------
+--------------------- \/\/\/\/ DONE \/\/\/\/ -------------------------
+
+bye haveCaption_OnlyForRestore var.
+	Some Fulllscreen problem (bad one when there ISNT MENU-BAR). New preference config: "use_caption", "smart" & others
+	(hc-devel-notes.txt)
+	
