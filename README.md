@@ -1,5 +1,5 @@
-# Hide Caption Titlebar Plus
+# Readme:
 
 
-[Dynamic Bars help (BETA!): ](web_public/content/help/dynbars_en.html)
+Test ... [Dynamic Bars help (BETA!): ](web_public/content/help/dynbars_en.html)
 
