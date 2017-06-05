@@ -1,5 +1,5 @@
-# firefox-hide-caption-titlebar-plus
+# Hide Caption Titlebar Plus
 
 
-[Link to another page html](another-page.html)
+[Dynamic Bars help (BETA!): ](web_public/content/help/dynbars_en.html)
 
