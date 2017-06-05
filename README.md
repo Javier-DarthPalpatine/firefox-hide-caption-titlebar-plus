@@ -1,3 +1,5 @@
 # firefox-hide-caption-titlebar-plus
-Automatically exported from code.google.com/p/firefox-hide-caption-titlebar-plus
+
+
+[Link to another page html](another-page.html)
 
