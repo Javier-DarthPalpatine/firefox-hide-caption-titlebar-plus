@@ -4,6 +4,7 @@
 
 <meta charset="utf-8">
 
+<title> Dynamic Toolbars  &  Extra Floating Toolbars &nbsp; help </title>
 
 <style>
 body {
@@ -13,7 +14,9 @@ body {
 }
 
 table {
-	width: 60%;
+	width: 95%;
+	max-width: 110ch;
+	
 	border-collapse: collapse;
 }
 table#actives   td {
@@ -24,50 +27,97 @@ tr {
 }
 td, th {
 	border: 1px solid rgba(0,0,0,0.4);
-	padding: 0.1em 0.5em;
+	padding: 0.3em 0.5em 0.6em 0.6em;
 }
- 
+
+td:first-child {
+	text-align: center;
+}
+td:first-child:before {
+	content: "■";
+	font-size: 170%;
+	line-height: 0.7em;
+	
+	display: inline;
+	
+	text-shadow: 0 0 6px rgba(0,0,0,0.9);
+}
+
+:not(ul):not(ol) > li {
+	margin-left: 2ch;
+}
+
+.mouse   td:first-child:before { color: white;  text-shadow: 0 0 6px black, 0 0 0.6px black; } 
+.m_menu  td:first-child:before { color: #0F0;   } 
+.focus   td:first-child:before { color: yellow; } 
+.key     td:first-child:before { color: red;    } 
+.popup   td:first-child:before { color: blue;   } 
+.temp    td:first-child:before { color: black;  } 
+
+.esc     td:first-child:before { display: none;   } 
+
+
 </style>
 
 </head>
 <body>
 
-<h3 style="color: #000033;"><img border="1" src="chrome://HideCaptionPlus/skin/hcp_icon.png" /> Â   Dynamic Toolbars help (BETA!)  Â   Â  </h3>
+<h2 style="color: #000033;"><img border="0" src="chrome://HideCaptionPlus/skin/hcp_icon.png" /> &nbsp;  Dynamic Toolbars & Extra Floating Toolbars &nbsp; help  &nbsp; (In construction - Ver 0.7 -  Nov 2020)     </h2>
 
-<HR />
+<!-- HR -->
+
+<h3> See Demo video! &nbsp; 🠆 &nbsp; <a href="https://www.youtube.com/watch?v=MjY5dgKQq-w">https://www.youtube.com/watch?v=MjY5dgKQq-w</a> </h3>
+
 <br>
 <table id="actives" >
 	<thead>
-		<tr><th> </th><th style="width: 50%"> <b>Activate</b> the Floating-Toolbars: (make them appear)</th><th style="width: 50%"></th></tr>
+	 <tr>
+		<th> Indicator <br> color </th><th style="width: 50%"> <b>Activate</b> the Floating-Toolbars: <br>(make them appear)</th>
+		<th style="width: 50%"> <b>Deactivate</b> them: </th> 
+	 </tr>
 	</thead>
-	<tr>
-		<td> </td><td> By mouse hovering:  on Firefox button, on "List all Tabs" button (in tab-bar), on *custom* Min,Max,Close buttons (minimize button only, will be configurable) (XXX not the system ones).
-        XXXX
-        </td>
-        <td> * Deactivated by mousing out to the web-page content area. <span class="if_txt" >(only if no activation key was pressed, nor any popup-menu / main-menu is active) </span></td>
+	<tr class="mouse" >
+		<td> </td><td> By <b>mouse hovering:</b>  on: 
+		<li>Browser 'Home' button (at corner), 
+		<li>"List all Tabs" button (in tab-bar), 
+		<li><b>Custom</b> Min,Max,Close buttons (not the system ones)
+		(<b>Minimize</b> button only, will be configurable) . <!--XXX--> </td>
+        <td> <li> Deactivated by hovering out to the web-page <b>content area</b>. <span class="if_txt" >(only if no activation key was pressed, nor any popup-menu / main-menu is active) </span></td>
 	</tr>
-	<tr>
-		<td> </td><td> By activating/focusing the main-menu ("File, Edit ... Tools, Help") <span class="if_txt" > if It's inside the float-bars. </span> (default initialization)
+	<tr class="m_menu" >
+		<td> </td><td> By activating/focusing <b>Main-Menu</b> ("File Edit ... Tools Help") <span class="if_txt" > if It's inside the float-bars. </span> (default initialization)
+		
 		Done by ALT & F10 keys.</td>
-		<td>  Deactivated by closing such menu: by same keys. XXXX or clicking outside the menu.</td>
+		<td> <li> Deactivated by closing such menu: by same keys or clicking outside the menu.</td>
 	</tr>
-	<tr>
-		<td> </td><td> by activating/focusing the address/url field or search-field (usually inside "Navigation toolbar") <span class="if_txt" > if they are inside the float-bars </span>.
+	<tr class="focus" >
+		<td> </td><td> By <b>focusing Address/Url-field or Search-field</b> (usually inside "Navigation toolbar") <span class="if_txt" > if they are inside the float-bars </span>
+		
         Done by F6, Ctrl+L, ALT+D, Ctrl+K.
         </td>
-        <td> * Deactivated doing otherwise (moving out the focus from these 2 fields) 
+        <td> <li> Deactivated doing otherwise (moving out the focus from these 2 fields) 
+		
         Done by F6, pressing TAB until focus moves out, clicking web-page content area.</td>
 	</tr>
-	<tr>
-		<td> </td><td> by F1 key. (This kinda 'hard'-activates it, meaning It remains always active until unconditionally-deactivated)
-        Also by clicking the Special Button ..............XXXX
-        
-        There are really 2 *configurable* keys (1st-key default is F1). These can be configured by an appropiate add-on like "<a href="https://addons.mozilla.org/firefox/addon/customizable-shortcuts/">Customizable Shortcuts</a>" (Check both entries labeled "HCTP Floating Toolbars: Activation Toggle Key" near the end of shortcuts-list).
-        (better KEYCONFIG addon!) XXXX</td>
-        <td> * Deactivated by same key/s.</td>
+	<tr class="key" >
+		<td> </td><td> By <b>F1 key</b>. (This kinda 'hard'-activates it, meaning It remains always active until unconditionally-deactivated)
+        Also by clicking the <i>'Dynamic/Floating Toolbars button/control'</i> (in toolbar by default).  <!--XXX-->
+        <!--
+        There are really 2 *configurable* keys (1st default-key is F1). These can be configured by an appropiate add-on like "<a href="https://github.com/xiaoxiaoflood/firefox-scripts/tree/master/extensions/keyconfig">KeyConfig</a>" (Check both entries labeled "HCTP Floating Toolbars: Activation Toggle Key" near the end of shortcuts-list).
+         XXXX 
+		"<a href="https://addons.mozilla.org/firefox/addon/customizable-shortcuts/">Customizable Shortcuts</a>"
+		-->  
+		</td>
+        <td> <li> Deactivated by same key.</td>
 	</tr>
-	<tr>
-		<td> </td><td> </td><td> Unconditionally-deactivated by ESC key or clicking primary mouse-button in web-page content area.  
+	<tr class="popup" >
+		<td> </td><td> By a relevant <b>popup menu</b>. <!--XXX--></td><td> <li> Deactivated by closing such menu. </td>
+	</tr>
+	<tr class="temp" >
+		<td> </td><td> <b>Temporal</b> activation by relevant actions like: <li> Opening new Tab <li> New file download <!--XXX--></td><td> </td>
+	</tr>
+	<tr class="esc" >
+		<td> </td><td> </td><td> <li> <b>Unconditionally-deactivated</b> by <b>ESC</b> key or mouse primary click in web-page <b>content area</b>. 
 		</td>
 	</tr>
 </table>
