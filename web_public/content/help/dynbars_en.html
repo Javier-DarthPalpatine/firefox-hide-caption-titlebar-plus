@@ -34,7 +34,7 @@ td:first-child {
 	text-align: center;
 }
 td:first-child:before {
-	content: "■";
+	content: "â– ";
 	font-size: 170%;
 	line-height: 0.7em;
 	
@@ -45,6 +45,23 @@ td:first-child:before {
 
 :not(ul):not(ol) > li {
 	margin-left: 2ch;
+}
+
+
+
+.prev_no_side_borders {	
+	border-right: 0px none;	
+}
+.no_side_borders {
+	border-right: 0px none;
+	border-left : 0px none;
+}
+.no_side_borders + * {	/* Fx 115 no acepta aun el '&' */
+    border-left : 0px none;	
+}
+
+.lefta {
+	text-align: left;
 }
 
 .mouse   td:first-child:before { color: white;  } 
@@ -62,20 +79,29 @@ td:first-child:before {
 </head>
 <body>
 
-<h2 style=""><img border="0" src="chrome://HideCaptionPlus/skin/hcp_icon.png" /> &nbsp;  Dynamic Toolbars & Extra Floating Toolbars &nbsp; help  &nbsp; (In construction - Ver 0.71 -  Oct 2021)     </h2>
+<h2 style=""><img border="0" src="../skin/hcp_icon.png" /> &nbsp;  Dynamic Toolbars & Extra Floating Toolbars &nbsp; help  &nbsp; (In construction - Ver 0.81 -  May 2024)     </h2>
 
 <!-- HR -->
 
-<h3> See Demo video! &nbsp; 🠆 &nbsp; <a href="https://www.youtube.com/watch?v=MjY5dgKQq-w">https://www.youtube.com/watch?v=MjY5dgKQq-w</a> </h3>
+<h3> See Demo video! &nbsp; ðŸ † &nbsp; <a href="https://www.youtube.com/watch?v=MjY5dgKQq-w">https://www.youtube.com/watch?v=MjY5dgKQq-w</a> </h3>
 
 <br>
 <table id="actives" >
 	<thead>
 	 <tr>
+		<th colspan="3" class="lefta"> Working like browser's "Full Screen" option + color indicators: Â  (autohide bars without moving page content! ðŸ™‚) </th> <!-- colspan="3" -->
+	 </tr>
+	 <tr>
 		<th> Indicator <br> color </th><th style="width: 50%"> <b>Activate</b> the Floating-Toolbars: <br>(make them appear)</th>
 		<th style="width: 50%"> <b>Deactivate</b> them: </th> 
 	 </tr>
 	</thead>
+	<tr class="esc" >
+		<td class="prev_no_side_borders"> </td><td class="no_side_borders"> </td>
+		<td> <li> In all cases: 
+			<b>Unconditionally-deactivated</b> by <b>ESC</b> key or mouse primaryÂ click in web-page <b>contentÂ area</b>. 
+		</td>
+	</tr>
 	<tr class="mouse" >
 		<td> </td><td> By <b>mouse hovering:</b>  on: 
 		<li>Browser 'Home' button (at corner), 
@@ -115,10 +141,6 @@ td:first-child:before {
 	</tr>
 	<tr class="temp" >
 		<td> </td><td> <b>Temporal</b> activation by relevant actions like: <li> Opening new Tab <li> New file download <!--XXX--></td><td> </td>
-	</tr>
-	<tr class="esc" >
-		<td> </td><td> </td><td> <li> <b>Unconditionally-deactivated</b> by <b>ESC</b> key or mouse primary click in web-page <b>content area</b>. 
-		</td>
 	</tr>
 </table>
 
